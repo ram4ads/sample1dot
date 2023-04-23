@@ -1,0 +1,45 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger:
+- main
+
+pool:
+  name: Default
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  name: repo
+  value: $[replace(replace(variables['System.PullRequest.SourceRepositoryURI'], 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/',''),'%20',' ')]
+  name: repoName
+  value: $[replace(replace(variables['System.PullRequest.SourceRepositoryURI'],'%20','.'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft.Azure.Platform.Services/_git/',''),'MAPS.')]
+  name: repoKey
+  value: $[replace(replace(variables['System.PullRequest.SourceRepositoryURI'], '%20','.'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft.Azure.Platform.Services/_git/',''),'MAPS. ')]
+
+steps:
+- bash: evaluateVariables
+    echo $(repo)
+    echo $(repoName)
+    echo $(repoKey)
+
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
