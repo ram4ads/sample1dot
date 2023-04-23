@@ -6,7 +6,6 @@
 trigger:
 - main
 
-appendCommitMessageToRunName:
 pool:
   vmImage: ubuntu-latest
 
