@@ -9,16 +9,46 @@ trigger:
 pool:
   name: Default
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+stages:
+- stage: Restore
+  displayName: 'Restore'
+  jobs:
+  - job: Restore
+    displayName: 'Restore'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+    - script: |
+        #if ( $(task.result) -ne 0 ) {
+          Write-Host "##vso[task.setvariable variable=skipBuild]true"
+        #}
+- stage: Build
+  displayName: 'Build'
+  condition: ne(variables['skipBuild'], 'true')
+  jobs:
+  - job: Build
+    displayName: 'Build'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+        arguments: '--configuration release'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'BuildArtifacts'
+        publishLocation: 'Container'
 
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-  
-- task: DotNetCoreCLI@2
-  inputs:
-      command: 'build'
