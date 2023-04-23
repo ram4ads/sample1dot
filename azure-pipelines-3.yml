@@ -1,0 +1,53 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  name: Default
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+stages:
+- stage: Restore
+  displayName: 'Restore'
+  jobs:
+  - job: Restore
+    displayName: 'Restore'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+    - script: |
+        if ( $(task.result) -ne 0 ) {
+          Write-Host "##vso[task.setvariable variable=skipBuild]true"
+        }
+- stage: Build
+  displayName: 'Build'
+  condition: ne(variables['skipBuild'], 'true')
+  jobs:
+  - job: Build
+    displayName: 'Build'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+        arguments: '--configuration release'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'BuildArtifacts'
+        publishLocation: 'Container'
+

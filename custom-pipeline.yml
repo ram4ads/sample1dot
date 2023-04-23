@@ -1,0 +1,101 @@
+#azure-pipelines.yml
+
+trigger:
+- main
+
+stages:
+- stage: Build
+  displayName: 'Build'
+  jobs:
+  - job: Build
+    displayName: 'Build'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+        arguments: '--configuration release'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'BuildArtifacts'
+        publishLocation: 'Container'
+
+- stage: Test
+  displayName: 'Test'
+  dependsOn: Build
+  jobs:
+  - job: UnitTest
+    displayName: 'Unit Test'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'test'
+        projects: '**/*Tests.csproj'
+        arguments: '--configuration release --logger trx'
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'VSTest'
+        testResultsFiles: '**/*.trx'
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+
+  - job: IntegrationTest
+    displayName: 'Integration Test'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+        arguments: '--configuration release'
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: '<Subscription>'
+        appType: 'webApp'
+        WebAppName: '<AppName>'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+        enableCustomDeployment: true
+        deploymentType: 'auto'
+        DeploymentEndpoint: '<Endpoint>'
+        removeAdditionalFilesFlag: true
+        ExcludeFilesFromAppDataFlag: true
+
+- stage: Deploy
+  displayName: 'Deploy'
+  dependsOn: Test
+  jobs:
+  - job: Deploy
+    displayName: 'Deploy'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: '<Subscription>'
+        appType: 'webApp'
+        WebAppName: '<AppName>'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+        enableCustomDeployment: true
+        deploymentType: 'auto'
+        DeploymentEndpoint: '<Endpoint>'
+        removeAdditionalFilesFlag: true
+        ExcludeFilesFromAppDataFlag: true
