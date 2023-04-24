@@ -23,6 +23,7 @@ steps:
     targetType: 'inline'
     script: |
       # Write your commands here
+      echo 'repo'
       echo $repo
       echo $repoName
       echo $repoKey
