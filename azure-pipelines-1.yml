@@ -12,7 +12,7 @@ variables:
   repoKey: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS. ')]
 
 pool:
-  agent: default
+  name: Default
   
 steps:
 - script: echo Hello, world!
