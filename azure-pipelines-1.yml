@@ -8,7 +8,7 @@ trigger:
 
 variables:
   #repo: "https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234"
-  repo: $[replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234' , 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/','HelloRepo')]
+  repo: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/abc def ghi jkl' , 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/','HelloRepo'),' ','%20')]
   sample: $[replace('https://www.tinfoilsecurity.com/saml/consume','https://www.tinfoilsecurity.com','http://server')]
   #repoName: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS.')]
   #repoKey: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS. ')]
