@@ -5,7 +5,7 @@
 
 trigger:
 - main
-3
+
 variables:
   #repo: "https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234"
   #repo: $[replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234' , 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/',' '),'%20',' ')]
