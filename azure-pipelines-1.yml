@@ -7,8 +7,8 @@ trigger:
 - main
 
 variables:
-  repo: "https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234"
-  #repo: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/',' '),'%20',' ')]
+  #repo: "https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234"
+  repo: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/',' '),'%20',' ')]
   #repoName: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS.')]
   #repoKey: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS. ')]
 
