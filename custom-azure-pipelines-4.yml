@@ -13,12 +13,9 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  repo:
-    value: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/',''),'%20',' ')]
-  repoName:
-    value: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS.')]
-  repoKey:
-    value: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS. ')]
+  repo: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/',''),'%20',' ')]
+  repoName: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS.')]
+  repoKey: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS. ')]
 
 steps:
 - bash: |
