@@ -14,11 +14,11 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   repo:
-    value: $[replace(replace(variables['System.PullRequest.SourceRepositoryURI'], 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/',''),'%20',' ')]
+    value: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/',''),'%20',' ')]
   repoName:
-    value: $[replace(replace(variables['System.PullRequest.SourceRepositoryURI'],'%20','.'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft.Azure.Platform.Services/_git/',''),'MAPS.')]
+    value: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS.')]
   repoKey:
-    value: $[replace(replace(variables['System.PullRequest.SourceRepositoryURI'], '%20','.'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft.Azure.Platform.Services/_git/',''),'MAPS. ')]
+    value: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS. ')]
 
 steps:
 - bash: |
