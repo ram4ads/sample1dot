@@ -7,7 +7,7 @@ trigger:
 - main
 
 variables:
-  repo: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/',''),'%20',' ')]
+  repo: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/',' '),'%20',' ')]
   repoName: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS.')]
   repoKey: $[replace(replace('https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/1234'),'MAPS. ')]
 
@@ -23,6 +23,8 @@ steps:
     script: |
       # Write your commands here
       echo $repo
+      echo $repoName
+      echo $repoKey
       echo 'Hello world'
 
 - script: |
