@@ -13,15 +13,15 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  name: repo
-  value: $[replace(replace(variables['System.PullRequest.SourceRepositoryURI'], 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/',''),'%20',' ')]
-  name: repoName
-  value: $[replace(replace(variables['System.PullRequest.SourceRepositoryURI'],'%20','.'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft.Azure.Platform.Services/_git/',''),'MAPS.')]
-  name: repoKey
-  value: $[replace(replace(variables['System.PullRequest.SourceRepositoryURI'], '%20','.'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft.Azure.Platform.Services/_git/',''),'MAPS. ')]
+  repo:
+    value: $[replace(replace(variables['System.PullRequest.SourceRepositoryURI'], 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft Azure Platform Services/_git/',''),'%20',' ')]
+  repoName:
+    value: $[replace(replace(variables['System.PullRequest.SourceRepositoryURI'],'%20','.'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft.Azure.Platform.Services/_git/',''),'MAPS.')]
+  repoKey:
+    value: $[replace(replace(variables['System.PullRequest.SourceRepositoryURI'], '%20','.'), 'https://digitalfoundation@dev.azure.com/digitalfoundations/Microsoft.Azure.Platform.Services/_git/',''),'MAPS. ')]
 
 steps:
-- bash: evaluateVariables
+- bash: |
     echo $(repo)
     echo $(repoName)
     echo $(repoKey)
